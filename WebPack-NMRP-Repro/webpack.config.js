@@ -19,9 +19,11 @@ module.exports = (env, args) => {
         },
         plugins: [
             new webpack.NormalModuleReplacementPlugin(/(.*)-APP_TARGET(\.*)/, function (resource) {
-                resource.request = resource.request.replace(/-APP_TARGET/, `-${env}`);
+                var original = resource.request;
                 var replace = resource.request.replace(/-APP_TARGET/, `-${env}`);
-                console.log(replace);
+                resource.request = replace;
+                // This will help you debug the replacement during the build process. 
+                console.log(`Original Config: '${original}', Replacement: '${replace}'`);
             })
         ]
     }];
